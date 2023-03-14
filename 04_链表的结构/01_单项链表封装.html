@@ -45,7 +45,7 @@
           let listString = "";
           // 2.循环获取每一个节点
           while (current) {
-            listString += current.data + "";
+            listString += current.data + "/";
             current = current.next;
           }
           return listString;
@@ -56,6 +56,37 @@
           if (position < 0 || position > this.length) return false;
           // 2.根据data创建newNode
           let newNode = new Node(data);
+          // 3.判断插入的位置是否是第一个
+          if (position === 0) {
+            newNode.next = this.head;
+            this.head = newNode;
+          } else {
+            let index = 0;
+            let current = this.head;
+            let previous = null;
+            while (index++ < position) {
+              previous = current;
+              current = current.next;
+            }
+            newNode.next = current;
+            previous.next = newNode;
+          }
+          // 4.length+1
+          this.length += 1;
+          return true;
+        };
+        // 4.get方法
+        LinkedList.prototype.get = function (position) {
+          // 1.越界判断
+          if (position < 0 || position >= this.length) return null;
+          // 2.获取对应的data
+          let current = this.head;
+          index = 0;
+          while (index < position) {
+            current = current.next;
+            index++;
+          }
+          return current.data;
         };
       }
       // 测试代码
@@ -65,6 +96,8 @@
       list.append("abc");
       list.append("cba");
       list.append("nba");
+      list.insert(2, "aaa");
+      alert(list.get(1));
       alert(list.toString());
     </script>
   </body>
